@@ -1,7 +1,8 @@
 ![HOW IT'S WORK?](https://github.com/coin-universe/protofire/raw/master/image/image.png)
 
 ## PAGE_ADMIN: 
-### https://rinkeby.etherscan.io/address/0xcEB62e99d856ead35e6DDe20bFd3924DcebB4A03
+``` https://rinkeby.etherscan.io/address/0xcEB62e99d856ead35e6DDe20bFd3924DcebB4A03 ```
+
 во время деплоя создает, контракт PAGE_MINTER и определяет TreasuryAddress
 после деплоя, PAGE_TOKEN и PAGE_NFT контракт активируется функцией INIT, в которой параметрами передаются адреса контрактов PAGE_TOKEN и PAGE_NFT.
 ОПЦИЯ 1 - настройка TreasuryAddress. Можно менять процент и адрес.
