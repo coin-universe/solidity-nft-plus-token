@@ -1,70 +1,71 @@
 ![HOW IT'S WORK?](https://github.com/coin-universe/protofire/raw/master/image/image.png)
 
+```PAGE is ERC20 token name.```
+
 ### PAGE_ADMIN: 
 https://rinkeby.etherscan.io/address/0xcEB62e99d856ead35e6DDe20bFd3924DcebB4A03
 
-- Деплоиться отдельно.
-- во время деплоя создает, контракт PAGE_MINTER и определяет TreasuryAddress после деплоя, PAGE_TOKEN и PAGE_NFT контракт активируется функцией INIT, в которой параметрами передаются адреса контрактов PAGE_TOKEN и PAGE_NFT.
-- ОПЦИЯ 1 - настройка TreasuryAddress. Можно менять процент и адрес.
-- ОПЦИЯ 2 - настройка базового доменя для NFT
-- ОПЦИЯ 3 - добавление удаление и настройка минтера. Это нужно для добавления новых контрактов, расширяющих возможности платформы PAGE.
-- ОПЦИЯ 4 - настройка цены за сжигание NFT в токенах PAGE.
+- **Deploy separately.**
+- during deployment, it creates a PAGE_MINTER contract and determines the TreasuryAddress after deployment, PAGE_TOKEN and PAGE_NFT, the contract is activated by the INIT function, in which the addresses of the PAGE_TOKEN and PAGE_NFT contracts are passed as parameters.
+- OPTION 1 - TreasuryAddress setting. You can change the percentage and address.
+- OPTION 2 - setting the base domain for NFT
+- OPTION 3 - adding, deleting and setting the minter. This is necessary to add new contracts that enhance the capabilities of the PAGE platform.
+- OPTION 4 - setting the price for burning NFT in PAGE tokens. 
 
-**Функция owner.** Стандартная функция openzeppelin - присваевает управление контрактами, конкретному администратору, если в платформе мы приходим к финальным настройкам, овнера можно удалить насовсем, и заморозить текущие настройки.
+**owner function** The standard function of openzeppelin - assigns the management of contracts to a specific administrator, if in the platform we come to the final settings, the owner can be deleted permanently, and the current settings can be frozen. 
 
 
 ### PAGE_TOKEN:
 https://rinkeby.etherscan.io/address/0x65A2E2E489FDE1857E12163A9f2f7640c0d0F403
 
-- **Деплоиться отдельно.**
-- Постоянным админом контракта является контракт PAGE_MINTER. Отвечающий за выпуск новых токенов.
-- Дополнительная функция идея которой позаимствована в конракте erc777, SafeDeposit и SafeWithdrow, позволяет переводить токены внутри безопасного списка контрактов, без Approval. В частности это необходимо для контракта PageMarket, чтобы пользователь экономил на комиссиях.
+- **Deploy separately.**
+- The permanent admin of the contract is the PAGE_MINTER contract. Responsible for issuing new tokens.
+- An additional function, the idea of which is borrowed from the erc777 contract, SafeDeposit and SafeWithdrow, allows you to transfer tokens inside a safe list of contracts, without Approval. In particular, this is necessary for the PageMarket contract so that the user saves on commissions. 
 
 ### PAGE_NFT: 
 https://rinkeby.etherscan.io/address/0xa63F7ecD41b86B5609Da5cb891Eb10065F1364b5
 
-- **Деплоиться отдельно.**
-- Отвечает за создание NFT.
-- Дает возможность оставлять комментарии.
-- Позволяет сжигать (только текущему владельцу) NFT свои NFT.
-- Имеет функцию, в котором запоминается не только владелец но и создатель NFT (это отличие от других NFT коллекций)
+- **Deploy separately.**
+- Responsible for the creation of the NFT.
+- Allows you to leave comments.
+- Allows you to burn (current owner only) NFTs your NFTs.
+- Has a function in which not only the owner but also the creator of the NFT is remembered (this is a difference from other NFT collections) 
 
 ### PAGE_MINTER:
 https://rinkeby.etherscan.io/address/0xcE65382a0a49C8b3Cf3C1C446d15DBAA14FCAb86
 
-- Деплоиться контрактом PAGE_ADMIN во время создания.
-- Контракт позволяет выпускать новые токены PAGE.
-- setMinter - регистрирует действия с помощью которых можно выпускать монеты, при этом задаются: названия роли в текстовом формате, адрес контракта который может намайнить монеты, количество монет за вызов. Действие задается, редактируется или удаляется с помощью контракта PAGE_ADMIN.
-mint (mint1, mint2 ... ) - с помощью этой функции выпускаются новые монеты. Для майнинга, нужно передать ключь заранее зарегистрированный через setMinter и список адресов на который выпускаются монеты.
-- ВАЖНО. Каждая функция минтинга начисляет 10% от намайненых монет на TreasuryAddress.
-- ФУНКЦИЯ СЖИГАНИЯ. Монеты можно сжигать с помощью 2-ух функции: умное сжигание (сжигает 90% остальное передает на TreasuryAddress) и сжигание (просто сжигает монеты).
+- **Deploy with PAGE ADMIN contract at creation time.**
+-The contract allows the issuance of new PAGE tokens. 
+- setMinter - registers the actions with which you can mint coins, while specifying: the name of the role in text format, the address of the contract that can mine coins. For mining, you need to transfer the key registered in advance through setMinter and the list of addresses to which the coins will be mined. 
+- **IMPORTANT.** Each minting function credits 10% (in can be change in PAGE_ADMIN) of mined coins to TreasuryAddress. 
+- BURNED FUNCTION. Coins can be burned using 2 functions: smart burning (burns 90% of the rest transfers to TreasuryAddress) and burning (just burns coins). 
+
 
 
 ### PAGE_COMMENT:
 https://rinkeby.etherscan.io/address/0x3d1F2E600ef2a6668900316CE222999cC4c60575
 
-- Деплоиться контрактом PAGE_MINTER во время создания NFT с функцией комментирования.
-комментарий задается в соответствующей функции в контракте PAGE_NFT
-все комментарии создаются как запись в блокчейне, с соответствующим ID. По ID комментария можно получить, комментарий, адрес комментатора, и статус комментария (положительный или отрицательный).
+- **Deploy with the PAGE_MINTER contract while creating an NFT with a comment function.**
+- the comment is set in the corresponding function in the PAGE_NFT contract
+- all comments are created as a record in the blockchain, with the corresponding ID. By comment ID, you can get the comment, the commentator's address, and the comment status (positive or negative). 
 
 
 
+## Examples of transactions:
 
-## Примеры транзакций:
-
-создание NFT:
+NFT creation :
 https://rinkeby.etherscan.io/tx/0xc41fa66fb8536d2aaed14d2c5ecf309804bf7f3dfde5f90bc0b3db9c3f4bbf3c
 
-**распределение наград PAGE**
-- 10% => на кошелек компании CRYPTOHUB OU.
-- 90% => создателю
+**PAGE reward distribution**
+- 10% => to the company wallet
+- 90% => to the creator
 
-**добавление комментария к NFT:**
+**adding a comment to the NFT:**
 
 https://rinkeby.etherscan.io/tx/0x08dba14fb10a6711d31895a3b5a32385868f09dfb1423048d7e5119e14378fda
 
-**распределение наград PAGE**
-- 10% => на кошелек компании CRYPTOHUB OU
-- 30% => создателю 
-- 30% => владельцу 
-- 30% => комментатору 
+**PAGE reward distribution**
+- 10% => to the TreasuryAddress
+- 30% => to the creator
+- 30% => to the owner
+- 30% => commentator 
